@@ -13,9 +13,9 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="BC Data Connector"/>
   <Description DefaultValue="Fetch, refresh, add, and remove Business Central data tables directly in Excel."/>
-  <IconUrl DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-80.png"/>
-  <SupportUrl DefaultValue="https://REPLACE_WITH_YOUR_HOST/"/>
+  <IconUrl DefaultValue="https://ddevil13.github.io/bc-excel-addin//assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://ddevil13.github.io/bc-excel-addin//assets/icon-80.png"/>
+  <SupportUrl DefaultValue="https://ddevil13.github.io/bc-excel-addin//"/>
 
   <AppDomains>
     <AppDomain>https://login.microsoftonline.com</AppDomain>
@@ -27,7 +27,7 @@
   </Hosts>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://REPLACE_WITH_YOUR_HOST/src/taskpane/taskpane.html"/>
+    <SourceLocation DefaultValue="https://ddevil13.github.io/bc-excel-addin//src/taskpane/taskpane.html"/>
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
@@ -97,15 +97,15 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://ddevil13.github.io/bc-excel-addin//assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://ddevil13.github.io/bc-excel-addin//assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://ddevil13.github.io/bc-excel-addin//assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://REPLACE_WITH_YOUR_HOST/"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://REPLACE_WITH_YOUR_HOST/src/taskpane/taskpane.html"/>
-        <bt:Url id="Taskpane.AddTable.Url" DefaultValue="https://REPLACE_WITH_YOUR_HOST/src/taskpane/taskpane.html?mode=wizard"/>
-        <bt:Url id="Taskpane.Refresh.Url" DefaultValue="https://REPLACE_WITH_YOUR_HOST/src/taskpane/taskpane.html?mode=refresh"/>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://ddevil13.github.io/bc-excel-addin//"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://ddevil13.github.io/bc-excel-addin//src/taskpane/taskpane.html"/>
+        <bt:Url id="Taskpane.AddTable.Url" DefaultValue="https://ddevil13.github.io/bc-excel-addin//src/taskpane/taskpane.html?mode=wizard"/>
+        <bt:Url id="Taskpane.Refresh.Url" DefaultValue="https://ddevil13.github.io/bc-excel-addin//src/taskpane/taskpane.html?mode=refresh"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="BC Data Connector is ready"/>
