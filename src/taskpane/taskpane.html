@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>BC Data Connector</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Office.js -->
+<script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<!-- MSAL.js (browser) for delegated OAuth sign-in -->
+<script type="text/javascript" src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+
+<link rel="stylesheet" href="taskpane.css" />
+</head>
+<body>
+
+  <header class="app-header">
+    <img src="../../assets/icon-32.png" alt="" />
+    <h1>BC Data Connector</h1>
+  </header>
+
+  <!-- ============ HOME ============ -->
+  <section id="home-view" class="view">
+    <p class="muted">Choose an action:</p>
+    <button class="btn btn-primary" id="home-add-table">Add Table</button>
+    <button class="btn" id="home-refresh">Refresh Data</button>
+    <button class="btn btn-link" id="home-manage">Manage connections &amp; tables</button>
+  </section>
+
+  <!-- ============ WIZARD ============ -->
+  <section id="wizard-view" class="view" style="display:none">
+    <div class="steps">
+      <span class="step-dot active" data-step="1">1</span>
+      <span class="step-dot" data-step="2">2</span>
+      <span class="step-dot" data-step="3">3</span>
+    </div>
+
+    <!-- Step 1: Connection -->
+    <div id="wizard-step1" class="wizard-step">
+      <h2>1. Connect to Business Central</h2>
+
+      <label>Saved connection</label>
+      <select id="saved-connections"><option value="">-- New connection --</option></select>
+
+      <label>Tenant ID</label>
+      <input type="text" id="input-tenant" placeholder="GUID or domain, e.g. contoso.onmicrosoft.com" />
+
+      <label>Client ID (Azure AD App Registration)</label>
+      <input type="text" id="input-clientid" placeholder="Application (client) ID" />
+
+      <label>Environment Type</label>
+      <select id="input-envtype">
+        <option value="Sandbox">Sandbox</option>
+        <option value="Production">Production</option>
+      </select>
+
+      <label>Environment Name</label>
+      <input type="text" id="input-envname" placeholder="e.g. Production or Sandbox-ITL2026" />
+
+      <button class="btn btn-primary" id="btn-signin">Sign in &amp; load companies</button>
+      <div id="signin-status" class="status"></div>
+
+      <label>Company</label>
+      <select id="input-company" disabled><option value="">-- Sign in first --</option></select>
+
+      <div class="wizard-actions">
+        <button class="btn btn-link" id="step1-cancel">Cancel</button>
+        <button class="btn btn-primary" id="step1-next" disabled>Next</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Table + Fields -->
+    <div id="wizard-step2" class="wizard-step" style="display:none">
+      <h2>2. Choose table &amp; fields</h2>
+
+      <label>Table</label>
+      <select id="input-table">
+        <option value="">-- Select a table --</option>
+      </select>
+      <div id="table-load-status" class="status"></div>
+
+      <label>Fields <span class="muted">(uncheck any you don't need)</span></label>
+      <input type="text" id="field-filter" placeholder="Filter fields..." />
+      <div id="fields-list" class="fields-list"></div>
+
+      <div class="wizard-actions">
+        <button class="btn btn-link" id="step2-back">Back</button>
+        <button class="btn btn-primary" id="step2-next" disabled>Next</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Placeholder + Create -->
+    <div id="wizard-step3" class="wizard-step" style="display:none">
+      <h2>3. Choose placeholder cell</h2>
+
+      <p class="muted">Click a cell in the worksheet where the table should start, then press the button below.</p>
+      <button class="btn" id="btn-use-active-cell">Use active cell</button>
+      <div id="anchor-status" class="status"></div>
+
+      <label>Excel table name</label>
+      <input type="text" id="input-tablename" placeholder="e.g. BC_Customers" />
+
+      <div class="wizard-actions">
+        <button class="btn btn-link" id="step3-back">Back</button>
+        <button class="btn btn-primary" id="btn-create-table">Create table</button>
+      </div>
+      <div id="create-status" class="status"></div>
+    </div>
+
+    <!-- Done -->
+    <div id="wizard-done" class="wizard-step" style="display:none">
+      <h2>&#10003; Table created</h2>
+      <p id="done-message"></p>
+      <button class="btn btn-primary" id="btn-add-another">Add another table</button>
+      <button class="btn btn-link" id="btn-wizard-home">Back to home</button>
+    </div>
+  </section>
+
+  <!-- ============ REFRESH ============ -->
+  <section id="refresh-view" class="view" style="display:none">
+    <h2>Refresh Business Central tables</h2>
+    <div id="refresh-list" class="refresh-list"></div>
+    <button class="btn btn-primary" id="btn-refresh-selected">Refresh selected</button>
+    <button class="btn btn-link" id="btn-refresh-home">Back to home</button>
+    <div id="refresh-log" class="log"></div>
+  </section>
+
+  <!-- ============ MANAGE ============ -->
+  <section id="manage-view" class="view" style="display:none">
+    <h2>Manage</h2>
+    <h3>Registered tables</h3>
+    <div id="manage-tables-list"></div>
+    <h3>Saved connections</h3>
+    <div id="manage-connections-list"></div>
+    <button class="btn btn-link" id="btn-manage-home">Back to home</button>
+  </section>
+
+  <!-- ============ CONFLICT MODAL ============ -->
+  <div id="conflict-modal" class="modal-overlay" style="display:none">
+    <div class="modal-box">
+      <h3>Placeholder conflict</h3>
+      <p id="conflict-message"></p>
+      <button class="btn" id="conflict-pick-cell">Pick a new cell for the other table</button>
+      <div id="conflict-pick-status" class="status"></div>
+      <div class="wizard-actions">
+        <button class="btn btn-link" id="conflict-cancel">Cancel this refresh</button>
+        <button class="btn btn-primary" id="conflict-confirm-move" disabled>Move &amp; continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="config.js"></script>
+  <script type="text/javascript" src="auth.js"></script>
+  <script type="text/javascript" src="bcapi.js"></script>
+  <script type="text/javascript" src="store.js"></script>
+  <script type="text/javascript" src="excelops.js"></script>
+  <script type="text/javascript" src="taskpane.js"></script>
+</body>
+</html>

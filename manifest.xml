@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+  xsi:type="TaskPaneApp">
+
+  <!-- IMPORTANT: Generate your own GUID for Id (e.g. in PowerShell: [guid]::NewGuid()) -->
+  <Id>b6f1e2a4-8e3a-4e2d-9f0a-1a2b3c4d5e6f</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Dhiren Nagar</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="BC Data Connector"/>
+  <Description DefaultValue="Fetch, refresh, add, and remove Business Central data tables directly in Excel."/>
+  <IconUrl DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-80.png"/>
+  <SupportUrl DefaultValue="https://REPLACE_WITH_YOUR_HOST/"/>
+
+  <AppDomains>
+    <AppDomain>https://login.microsoftonline.com</AppDomain>
+    <AppDomain>https://api.businesscentral.dynamics.com</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Workbook"/>
+  </Hosts>
+
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://REPLACE_WITH_YOUR_HOST/src/taskpane/taskpane.html"/>
+  </DefaultSettings>
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Workbook">
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="GetStarted.Title"/>
+            <Description resid="GetStarted.Description"/>
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl"/>
+          </GetStarted>
+
+          <FunctionFile resid="Taskpane.Url"/>
+
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="BcConnector.Group">
+                <Label resid="BcConnector.GroupLabel"/>
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16"/>
+                  <bt:Image size="32" resid="Icon.32x32"/>
+                  <bt:Image size="80" resid="Icon.80x80"/>
+                </Icon>
+
+                <Control xsi:type="Button" id="BcConnector.AddTableButton">
+                  <Label resid="AddTable.Label"/>
+                  <Supertip>
+                    <Title resid="AddTable.Label"/>
+                    <Description resid="AddTable.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>BcConnector.Taskpane</TaskpaneId>
+                    <SourceLocation resid="Taskpane.AddTable.Url"/>
+                  </Action>
+                </Control>
+
+                <Control xsi:type="Button" id="BcConnector.RefreshButton">
+                  <Label resid="Refresh.Label"/>
+                  <Supertip>
+                    <Title resid="Refresh.Label"/>
+                    <Description resid="Refresh.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>BcConnector.Taskpane</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Refresh.Url"/>
+                  </Action>
+                </Control>
+
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://REPLACE_WITH_YOUR_HOST/assets/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://REPLACE_WITH_YOUR_HOST/"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://REPLACE_WITH_YOUR_HOST/src/taskpane/taskpane.html"/>
+        <bt:Url id="Taskpane.AddTable.Url" DefaultValue="https://REPLACE_WITH_YOUR_HOST/src/taskpane/taskpane.html?mode=wizard"/>
+        <bt:Url id="Taskpane.Refresh.Url" DefaultValue="https://REPLACE_WITH_YOUR_HOST/src/taskpane/taskpane.html?mode=refresh"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GetStarted.Title" DefaultValue="BC Data Connector is ready"/>
+        <bt:String id="BcConnector.GroupLabel" DefaultValue="Business Central"/>
+        <bt:String id="AddTable.Label" DefaultValue="Add Table"/>
+        <bt:String id="Refresh.Label" DefaultValue="Refresh Data"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="Use Add Table to pull data from Business Central. Use Refresh Data to update existing tables."/>
+        <bt:String id="AddTable.Tooltip" DefaultValue="Open the wizard to connect to Business Central and insert a new data table."/>
+        <bt:String id="Refresh.Tooltip" DefaultValue="Refresh one or more existing Business Central tables with the latest data."/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
